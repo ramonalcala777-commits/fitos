@@ -39,7 +39,7 @@ jobs:
   actualizar:
     if: github.event_name != 'push'
     runs-on: ubuntu-latest
-    timeout-minutes: 150
+    timeout-minutes: 180
     outputs:
       fallo: ${{ steps.datos.outputs.fallo }}
     env:
@@ -47,8 +47,9 @@ jobs:
       # Raíz oficial FNMT G2R que usa www.mapa.gob.es y aún no viene de serie (ver certificados/LEEME.md)
       NODE_EXTRA_CA_CERTS: certificados/fnmt-raiz-servidores-seguros-g2r.pem
       # CERES: tiempo para confirmar certificados de proveedores (antes 1 minuto y 3 fallos)
-      CERES_PRESUPUESTO_MINUTOS: 25
-      CERES_MAX_FALLOS: 40
+      CERES_PRESUPUESTO_MINUTOS: 45
+      CERES_MAX_FALLOS: 150
+      CERES_ESPERA_PDF_SEGUNDOS: 150
     steps:
       - name: Comprobar la hora de Madrid
         id: hora

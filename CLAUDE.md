@@ -59,7 +59,7 @@ la aptitud depende de la fecha del día.
 
 ## Otras piezas
 - `public/sw.js` + `manifest.webmanifest`: funciona sin cobertura (datos guardados en el móvil, red primero).
-- CERES: el workflow le da 25 minutos y 40 fallos para descargar confirmaciones (`CERES_PRESUPUESTO_MINUTOS`, `CERES_MAX_FALLOS`).
+- CERES: el workflow le da 45 minutos, 150 fallos y 150 s por certificado para descargar confirmaciones (`CERES_PRESUPUESTO_MINUTOS`, `CERES_MAX_FALLOS`, `CERES_ESPERA_PDF_SEGUNDOS`). Algunos proveedores dan «Invalid page request» en CERES: quedan pendientes.
 - Control Union publica su lista EU vacía (0 KB) y sus fichas piden usuario; Agrocolor no publica listado (solo formulario): sus productos se añaden a mano.
 - `lib/mapa.mjs` empareja fichas por registro cuando MAPA renumera el IdProducto y describe el tipo de cambio.
 
