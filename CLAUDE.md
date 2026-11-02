@@ -21,7 +21,7 @@ para pistacho, almendro y frutos de cáscara, insumos ECO certificados y autoriz
 - `.github/workflows/publicar.yml`:
   - viernes y sábados a las 15:30 (Madrid) ejecuta `scripts/actualizar.mjs`, guarda los datos en el repo y publica;
   - cada push a `main` vuelve a publicar;
-  - se puede lanzar a mano (Actions → «Actualizar y publicar» → Run workflow).
+  - se puede lanzar a mano (Actions → «Actualizar y publicar» → Run workflow), con la opción «apartados» para actualizar solo algunos.
 - `scripts/actualizar.mjs` hace lo que antes hacían el actualizador externo y el servidor (`/api/import`,
   `/api/inputs`, `/api/ecology`, `/api/exceptions`), con las mismas validaciones. Apartados independientes:
   `node scripts/actualizar.mjs mapa` (o `insumos`, `normativa`, `excepcionales`, separados por comas).
@@ -33,7 +33,7 @@ para pistacho, almendro y frutos de cáscara, insumos ECO certificados y autoriz
 |---|---|
 | pistacho.json, almendro.json, cascara.json | Catálogo MAPA en bruto por cultivo (con usos, alias y cambios) |
 | estado-<cultivo>.json | Último intento de actualización de ese cultivo |
-| normativa-eco.json | Comprobación de versiones de 2021/1165 y 540/2011 en EUR-Lex |
+| normativa-eco.json | Comprobación de versiones consolidadas de 2021/1165 y 540/2011 (servicio SPARQL de la Oficina de Publicaciones de la UE; EUR-Lex como alternativa). Si aparece una versión nueva vigente, se suspenden las etiquetas ECO hasta revisar `lib/eco.mjs` y actualizar `ECO_REVIEW_BASELINE` en `lib/check-eco-law.mjs` |
 | excepcionales.json | Archivo histórico de autorizaciones excepcionales (nunca se borran registros) |
 | insumos.json, insumos-detalles.json | Insumos ECO de certificadoras y fichas ampliadas |
 

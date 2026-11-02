@@ -9,7 +9,7 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "actualizar": "node scripts/actualizar.mjs",
-    "test": "node scripts/test-dose.mjs && node scripts/test-eco.mjs && node scripts/check-data.mjs"
+    "test": "node scripts/test-dose.mjs && node scripts/test-eco.mjs && node scripts/test-normativa.mjs && node scripts/check-data.mjs"
   },
   "dependencies": {
     "lucide-react": "1.31.0",
