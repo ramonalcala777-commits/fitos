@@ -6,7 +6,12 @@ jobs:
     steps:
       - uses: actions/setup-node@v4
         with: {node-version: 24}
-      - run: echo | openssl s_client -showcerts -servername www.mapa.gob.es -connect www.mapa.gob.es:443 2>&1 | grep -E "^ *[0-9] s:|i:|Verify|verify" | head -30
-      - run: node -e "fetch('https://www.mapa.gob.es/').then(r=>console.log('normal',r.status)).catch(e=>console.log('normal',e.cause?.code,e.cause?.message))"
-      - run: node --use-system-ca -e "fetch('https://www.mapa.gob.es/').then(r=>console.log('system-ca',r.status)).catch(e=>console.log('system-ca',e.cause?.code,e.cause?.message))"
-      - run: curl -sS -o /dev/null -w "curl %{http_code}\n" https://www.mapa.gob.es/ || true
+      - run: |
+          curl -sS -o raiz.cer https://www.sede.fnmt.gob.es/documents/10445900/10526749/AC_RAIZ_FNMTRCM_Servidores_Seguros_G2R.cer
+          (openssl x509 -inform DER -in raiz.cer -out raiz.pem 2>/dev/null || cp raiz.cer raiz.pem)
+          openssl x509 -in raiz.pem -noout -subject -issuer -dates -fingerprint -sha1
+          openssl x509 -in raiz.pem -noout -fingerprint -sha256
+          echo | openssl s_client -showcerts -servername www.mapa.gob.es -connect www.mapa.gob.es:443 2>/dev/null | awk '/BEGIN/{n++} n==3' | sed -n '/BEGIN/,/END/p' > enviada.pem
+          openssl x509 -in enviada.pem -noout -subject -fingerprint -sha1
+          echo "=== PEM ==="; cat raiz.pem
+          NODE_EXTRA_CA_CERTS=raiz.pem node -e "fetch('https://www.mapa.gob.es/dam/mapa/contenido/agricultura/temas/sanidad-vegetal/medios-de-defensa-fitosanitaria/registro-productos-fitosanitarios/autorizaciones_excepcionales.xls',{method:'HEAD'}).then(r=>console.log('con raiz FNMT',r.status)).catch(e=>console.log('con raiz FNMT',e.cause?.code,e.message))"
