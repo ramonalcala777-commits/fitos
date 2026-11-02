@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {parseCaae,parseCigo} from '../lib/inputs-update.mjs';
+import {inputEvidence} from '../lib/inputs-core.mjs';
+const seed=JSON.parse(await readFile('public/data/insumos.json','utf8'));
+const now=new Date('2026-10-07T18:00:00Z'),e={present:true,checkedAt:'2026-10-07T00:00:00Z',validUntil:'2027-06-30'};
+assert.equal(inputEvidence(e,now).eligible,true);
+for(const change of [{present:false},{validUntil:'2026-10-06'},{checkedAt:'2026-09-01T00:00:00Z'},{checkedAt:'bad'},{validFrom:'2026-10-08'}])assert.equal(inputEvidence({...e,...change},now).eligible,false);
+assert.equal(inputEvidence({...e,validUntil:'2026-10-07'},new Date('2026-10-07T22:01:00Z')).eligible,false,'Expiry uses Madrid calendar day');
+const row={Servicio:'Insumos UNE 142500: Fertilizantes para la prod agricultura ecológica UE',NombreOperador:'Fabricante','País':'SPAIN',Producto:'Fertilizantes','Categoría':'Abono con microorganismos','Marca Comercial':'Exacto'};
+const fixtures=Array.from({length:100},(_,i)=>({...row,Servicio:i===0?row.Servicio:i%2?'Fertilizantes UE. Módulo B':'Insumos para NOP agricultura'}));
+assert.equal(parseCaae(fixtures,e.checkedAt).length,1,'CE and NOP do not imply EU organic suitability');
+assert.throws(()=>parseCigo('<div>No aparece el producto 30/06/2027</div>',e.checkedAt));
+assert.equal(new Set(seed.products.map(p=>p.id)).size,seed.products.length);
+for(const name of ['PROBITAL I','PROBITAL II','PROBITAL III','CIGO-B COMPLEX'])assert.ok(seed.products.find(p=>p.name===name));
+assert.equal(seed.products.find(p=>p.name==='CIGO-B COMPLEX').evidence[0].validUntil,'2027-06-30');
+console.log('Verified organic schemes, expiry, freshness, removal, exact product identity and examples.');

@@ -1,0 +1,10 @@
+export type DoseStatus='above'|'below'|'within';
+export type Range={min:number;max:number};
+export type DoseSpec={kind:'volume'|'mass';unit:'l'|'kg';factor:number;per:'ha'|'hl'|'m2'|'percent'};
+type Ready={ready:true;per1000:number;perHa:number;unit:string};
+type Checked=Ready&{checkable:true;officialValue:number;doseStatus:DoseStatus;waterStatus:DoseStatus|'unknown';waterRange:Range|null;limitPer1000:Range;extraStatus:DoseStatus|'unknown';manualMax:number|null;reviewDose:boolean;percent:boolean;overLimit:boolean;belowLimit:boolean};
+export type DoseResult={ready:false;reason:string}|(Ready&{checkable:false;reason:string})|Checked;
+export function positiveNumber(value:unknown):number|null;
+export function doseUnit(raw:unknown,basis?:string):DoseSpec|null;
+export function waterRange(use:Record<string,any>):Range|null;
+export function calculateDose(use:Record<string,any>,input?:{amount?:string|number;volume?:string|number;inputUnit?:string;percentBasis?:string;extraMax?:string;generalConditions?:string}):DoseResult;
