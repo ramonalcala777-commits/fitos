@@ -1,0 +1,22 @@
+name: Diagnostico normativa (temporal)
+on: workflow_dispatch
+jobs:
+  sparql:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v4
+        with: {node-version: 24}
+      - run: |
+          cat > q.mjs <<'E'
+          const EP='https://publications.europa.eu/webapi/rdf/sparql';
+          const P='PREFIX cdm: <http://publications.europa.eu/ontology/cdm#> PREFIX owl: <http://www.w3.org/2002/07/owl#> ';
+          const qs={
+           A:P+'SELECT DISTINCT ?celex WHERE { ?w cdm:resource_legal_id_celex ?celex . FILTER(STRSTARTS(STR(?celex),"02021R1165-")) }',
+           B:P+'SELECT DISTINCT ?celex WHERE { ?base owl:sameAs <http://publications.europa.eu/resource/celex/32021R1165> . ?w cdm:act_consolidated_consolidates_resource_legal ?base ; cdm:resource_legal_id_celex ?celex . }',
+           C:P+'SELECT DISTINCT ?celex WHERE { ?base owl:sameAs <http://publications.europa.eu/resource/celex/32011R0540> . ?w cdm:act_consolidated_consolidates_resource_legal ?base ; cdm:resource_legal_id_celex ?celex . }',
+           D:P+'SELECT DISTINCT ?p WHERE { ?w cdm:resource_legal_id_celex "02021R1165-20260101"^^<http://www.w3.org/2001/XMLSchema#string> ; ?p ?o . } LIMIT 80',
+           E:P+'SELECT DISTINCT ?celex WHERE { ?w cdm:resource_legal_id_celex ?celex . FILTER(STRSTARTS(STR(?celex),"02011R0540-")) }'
+          };
+          for(const [k,q] of Object.entries(qs)){const t=Date.now();try{const r=await fetch(EP+'?query='+encodeURIComponent(q),{headers:{Accept:'application/sparql-results+json','User-Agent':'Fitos normativa ECO (GitHub Actions)'},signal:AbortSignal.timeout(90000)});const s=await r.text();let out=s;try{out=JSON.parse(s).results.bindings.map(b=>Object.values(b).map(v=>v.value).join(' ')).sort().join(' | ')}catch{}console.log(k,r.status,(Date.now()-t)+'ms',out.slice(0,3000))}catch(e){console.log(k,'ERR',e.message,e.cause?.code)}}
+          E
+          node q.mjs
