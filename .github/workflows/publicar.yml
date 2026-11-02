@@ -39,6 +39,8 @@ jobs:
       fallo: ${{ steps.datos.outputs.fallo }}
     env:
       TZ: Europe/Madrid   # el MAPA da sus fechas en hora de Madrid
+      # Raíz oficial FNMT G2R que usa www.mapa.gob.es y aún no viene de serie (ver certificados/LEEME.md)
+      NODE_EXTRA_CA_CERTS: certificados/fnmt-raiz-servidores-seguros-g2r.pem
     steps:
       - name: Comprobar la hora de Madrid
         id: hora
