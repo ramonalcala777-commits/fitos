@@ -36,6 +36,11 @@ para pistacho, almendro y frutos de cáscara, insumos ECO certificados y autoriz
 | normativa-eco.json | Comprobación de versiones consolidadas de 2021/1165 y 540/2011 (servicio SPARQL de la Oficina de Publicaciones de la UE; EUR-Lex como alternativa). Si aparece una versión nueva vigente, se suspenden las etiquetas ECO hasta revisar `lib/eco.mjs` y actualizar `ECO_REVIEW_BASELINE` en `lib/check-eco-law.mjs` |
 | excepcionales.json | Archivo histórico de autorizaciones excepcionales (nunca se borran registros) |
 | insumos.json, insumos-detalles.json | Insumos ECO de certificadoras y fichas ampliadas |
+| insumos-manuales.json | Certificados ECO comprobados a mano (p. ej. Agrocolor). Obligatorio: enlace https al certificado oficial, caducidad, fecha y autor de la comprobación (`verification: "manual"`). Valen hasta su caducidad |
+| excepcionales-revisiones.json | Revisión asistida de excepcionales nuevas/modificadas: `estado: "propuesta"` (no se aplica) o `"revisada"` (solo con visto bueno de Ramón). `sustituye` marca la versión anterior |
+| cambios-historial.json | Cambios del registro MAPA por semana y cultivo (6 meses) |
+| novedades.json | Novedades de la última ejecución; si hay, el workflow abre un aviso (issue) que llega por correo |
+| generado/ | Lo crea `scripts/preparar-insumos.mjs` al compilar: lista ligera de insumos y fichas en 32 partes (no se guarda en git) |
 
 La unión pistacho/almendro + grupo «Frutales de cáscara» y la etiqueta ECO se calculan en el navegador
 (`lib/catalog-view.mjs`, `lib/eco.mjs`). Los insumos se decoran en el navegador (`lib/inputs-core.mjs`) porque
@@ -51,6 +56,12 @@ la aptitud depende de la fecha del día.
 - Conservar: tres cultivos, etiqueta amarilla del grupo, otras denominaciones (LAIDAN → LAMBDASTAR),
   calculadora de dosis, filtro ECO por uso, filtro de marca en insumos (Timac Agro), orden de excepcionales
   de más reciente a más antiguo.
+
+## Otras piezas
+- `public/sw.js` + `manifest.webmanifest`: funciona sin cobertura (datos guardados en el móvil, red primero).
+- CERES: el workflow le da 25 minutos y 40 fallos para descargar confirmaciones (`CERES_PRESUPUESTO_MINUTOS`, `CERES_MAX_FALLOS`).
+- Control Union publica su lista EU vacía (0 KB) y sus fichas piden usuario; Agrocolor no publica listado (solo formulario): sus productos se añaden a mano.
+- `lib/mapa.mjs` empareja fichas por registro cuando MAPA renumera el IdProducto y describe el tipo de cambio.
 
 ## Comprobar antes de publicar
 `npm ci --ignore-scripts && npm test && npm run build`

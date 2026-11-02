@@ -1,0 +1,23 @@
+{
+  "nota": "Certificados de insumos ECO comprobados a mano (por ejemplo, de Agrocolor u otras certificadoras sin listado público). Cada uno lleva el enlace al certificado oficial, su caducidad y quién y cuándo lo comprobó. La web deja de considerarlo apto al día siguiente de su caducidad.",
+  "ejemplo": {
+    "name": "NOMBRE COMERCIAL EXACTO",
+    "manufacturer": "Empresa titular del certificado",
+    "type": "Tipo publicado en el certificado",
+    "family": "Abonos y otros fertilizantes",
+    "evidence": [{
+      "issuer": "Agrocolor",
+      "scheme": "Reg. (UE) 2018/848 · informe de conformidad de insumos",
+      "verification": "manual",
+      "certificateNumber": "N.º del certificado",
+      "validFrom": "2026-01-01",
+      "validUntil": "2026-12-31",
+      "sourceUrl": "https://… (PDF oficial del certificado)",
+      "checkedAt": "2026-11-02",
+      "checkedBy": "Claude, a petición de Ramón",
+      "conditions": "Condiciones o restricciones copiadas del certificado.",
+      "scope": "Agricultura ecológica de la UE"
+    }]
+  },
+  "products": []
+}

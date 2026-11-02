@@ -1,0 +1,53 @@
+{
+ "nota": "Revisiones de autorizaciones excepcionales nuevas o modificadas. Claude lee el documento oficial y propone cultivos, comunidades y fechas (estado «propuesta»); solo se aplican en la web cuando Ramón da el visto bueno (estado «revisada»). Los datos descargados de las fuentes no se modifican.",
+ "revisiones": {
+  "mapa-09e3658dd625092dc1b7": {
+   "estado": "propuesta",
+   "revisadaEl": "2026-11-02",
+   "vistoBueno": "pendiente",
+   "sustituye": "mapa-MBD01594185",
+   "nota": "Versión actualizada de la resolución de 10/07/2026 del MAPA (con sus modificaciones de 15/07, 17/07, 24/07, la corrección de 08/09 y la modificación de 09/10/2026, que añade Cataluña).",
+   "title": "Acetamiprid 20% SG: aplicación adicional postcosecha contra gusano cabezudo",
+   "crops": [
+    "almendro"
+   ],
+   "products": [
+    "Formulados a base de acetamiprid 20% [SG] P/P autorizados en melocotonero/nectarino o almendro"
+   ],
+   "substances": [
+    "Acetamiprid"
+   ],
+   "territories": [
+    "Andalucía",
+    "Aragón",
+    "Castilla-La Mancha",
+    "Murcia",
+    "Valencia",
+    "Cataluña"
+   ],
+   "periods": [
+    {
+     "from": "2026-07-15",
+     "to": "2026-11-11",
+     "territory": "Andalucía y Murcia"
+    },
+    {
+     "from": "2026-07-17",
+     "to": "2026-11-11",
+     "territory": "Aragón y Castilla-La Mancha"
+    },
+    {
+     "from": "2026-07-24",
+     "to": "2026-11-11",
+     "territory": "Valencia"
+    },
+    {
+     "from": "2026-10-09",
+     "to": "2026-11-11",
+     "territory": "Cataluña"
+    }
+   ],
+   "conditions": "Cultivos: melocotonero, nectarino y almendro. Plaga: gusano cabezudo (Capnodis tenebrionis). Dosis máxima 0,25 kg/ha. Una aplicación adicional después de la recolección del fruto (la corrección de 08/09/2026 cambia «tercera aplicación» por «aplicación adicional»). Volumen de caldo 1000–1500 L/ha. Pulverización foliar. Plazo de seguridad: no procede. Solo productos ya autorizados en el Registro para melocotonero/nectarino o almendro. Seguir las instrucciones de la etiqueta."
+  }
+ }
+}

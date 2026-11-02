@@ -16,3 +16,39 @@
 .input-health-date{display:block;margin-top:7px}.input-source-status{font-size:12px;line-height:1.7;color:var(--muted);margin:12px 0}.input-source-row{padding:12px 0;border-bottom:1px solid var(--line)}.input-source-row:last-of-type{border-bottom:0}.input-source-technical{border:0;padding:6px 0}.input-source-technical summary{font-size:11px;font-weight:400;color:var(--muted)}.input-source-technical p{overflow-wrap:anywhere}
 
 .exception-coverage{margin:16px 0;border:1px solid var(--line);border-radius:5px;padding:13px 16px;color:var(--muted)}.exception-coverage summary{font-size:12px;color:var(--ink)}.exception-coverage p{font-size:12px;line-height:1.7}
+
+/* ===== Móvil compacto, filtros plegables, historial de cambios y modo sin conexión (02/11/2026) ===== */
+.filters-toggle{display:none}
+.change-group{margin-top:24px}.change-date{font-size:15px;margin:0 0 4px;font-family:Georgia,serif;font-weight:500}
+.change{align-items:flex-start}.change>div{flex:1}.change small{margin-left:6px;color:var(--muted)}.change p.help{margin:4px 0 0}
+.change-type{font-size:10px;padding:3px 7px;border-radius:3px;background:#eef0e6;white-space:nowrap;color:var(--ink)!important}
+.change-type.warn{background:#f6e8d1;color:#896620!important}.change-type.good{background:#e8eddf;color:#517040!important}
+.offline-note{display:flex;gap:8px;align-items:center;margin-top:12px}
+.manual-pill{background:#e7eef6;color:#2d4f73}
+@media(max-width:700px){
+ .filters-toggle{display:flex;align-items:center;gap:8px;width:100%;padding:12px 14px;margin:0 0 12px;border:1px solid var(--line);border-radius:6px;background:#fffdf8;color:var(--ink);font-size:13px;font-weight:600}
+ .filters-toggle span{margin-left:auto;font-weight:400;color:var(--muted);font-size:12px}
+ .workspace aside{display:none}
+ .workspace aside.open{display:block;border:1px solid var(--line);border-radius:6px;padding:14px;margin-bottom:14px;background:#fffdf8}
+ .exception-filter-panel{display:none}.exception-filter-panel.open{display:block}
+ header{padding:10px 4%;gap:8px;flex-wrap:wrap}
+ .brand{font-size:22px}.brand-icon{padding:6px;border-radius:8px}.brand-icon svg{width:18px;height:18px}
+ .private{display:none}
+ header nav{order:3;width:100%;flex-wrap:nowrap;overflow-x:auto;gap:18px;height:auto;min-height:32px;align-self:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+ header nav::-webkit-scrollbar{display:none}
+ header nav button{white-space:nowrap;flex-shrink:0;padding:6px 0}
+ .hero{display:none}
+ main{padding:0 4%}
+ .statusbar{margin-top:12px;padding:9px 12px;gap:6px 12px;font-size:10px}
+ .statusbar>span{width:auto;flex:1 1 60%}
+ .crop-row{margin:14px 0 12px}
+ .crop-selector{gap:6px;flex-wrap:nowrap}
+ .crop-selector button,.crop-selector button:last-child{padding:10px 8px;flex:1 1 0;min-width:0;font-size:14px;align-items:center;text-align:center}
+ .crop-selector small{display:none}
+ .group-note{font-size:11px;padding:10px 12px}
+ .eco-inputs{padding:14px 0}.eco-inputs>h2{font-size:24px;margin-bottom:6px}.input-intro{display:none}
+ .eco-inputs .input-coverage{padding:12px;margin:10px 0;gap:10px}.eco-inputs .input-coverage>div>p{display:none}
+ .exceptions{padding:14px 0}.exceptions>h2{font-size:26px}.exception-intro{font-size:12px;line-height:1.6}
+ .panel{margin:16px 0 40px}
+}
+.nav-short{display:none}@media(max-width:700px){.nav-long{display:none}.nav-short{display:inline}header nav{gap:13px}header nav button{font-size:11px}}

@@ -3,10 +3,12 @@
   "version": "2.0.0",
   "private": true,
   "type": "module",
-  "engines": {"node": ">=24"},
+  "engines": {
+    "node": ">=24"
+  },
   "scripts": {
-    "dev": "vite",
-    "build": "tsc --noEmit && vite build",
+    "dev": "node scripts/preparar-insumos.mjs && vite",
+    "build": "node scripts/preparar-insumos.mjs && tsc --noEmit && vite build",
     "preview": "vite preview",
     "actualizar": "node scripts/actualizar.mjs",
     "test": "node scripts/test-dose.mjs && node scripts/test-eco.mjs && node scripts/test-normativa.mjs && node scripts/check-data.mjs"
