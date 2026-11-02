@@ -2,9 +2,9 @@
  "nota": "Revisiones de autorizaciones excepcionales nuevas o modificadas. Claude lee el documento oficial y propone cultivos, comunidades y fechas (estado «propuesta»); solo se aplican en la web cuando Ramón da el visto bueno (estado «revisada»). Los datos descargados de las fuentes no se modifican.",
  "revisiones": {
   "mapa-09e3658dd625092dc1b7": {
-   "estado": "propuesta",
+   "estado": "revisada",
    "revisadaEl": "2026-11-02",
-   "vistoBueno": "pendiente",
+   "vistoBueno": "Ramón Alcalá (02/11/2026)",
    "sustituye": "mapa-MBD01594185",
    "nota": "Versión actualizada de la resolución de 10/07/2026 del MAPA (con sus modificaciones de 15/07, 17/07, 24/07, la corrección de 08/09 y la modificación de 09/10/2026, que añade Cataluña).",
    "title": "Acetamiprid 20% SG: aplicación adicional postcosecha contra gusano cabezudo",
