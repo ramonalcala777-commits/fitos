@@ -1,0 +1,12 @@
+name: Diagnostico certificado MAPA (temporal)
+on: workflow_dispatch
+jobs:
+  tls:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v4
+        with: {node-version: 24}
+      - run: echo | openssl s_client -showcerts -servername www.mapa.gob.es -connect www.mapa.gob.es:443 2>&1 | grep -E "^ *[0-9] s:|i:|Verify|verify" | head -30
+      - run: node -e "fetch('https://www.mapa.gob.es/').then(r=>console.log('normal',r.status)).catch(e=>console.log('normal',e.cause?.code,e.cause?.message))"
+      - run: node --use-system-ca -e "fetch('https://www.mapa.gob.es/').then(r=>console.log('system-ca',r.status)).catch(e=>console.log('system-ca',e.cause?.code,e.cause?.message))"
+      - run: curl -sS -o /dev/null -w "curl %{http_code}\n" https://www.mapa.gob.es/ || true

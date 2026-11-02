@@ -37,6 +37,8 @@ jobs:
     timeout-minutes: 150
     outputs:
       fallo: ${{ steps.datos.outputs.fallo }}
+    env:
+      TZ: Europe/Madrid   # el MAPA da sus fechas en hora de Madrid
     steps:
       - name: Comprobar la hora de Madrid
         id: hora
