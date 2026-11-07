@@ -1,6 +1,6 @@
 # Actualiza los datos de Fitos y publica la web en GitHub Pages.
 #
-# - Cada viernes y sábado a las 15:30 (hora de Madrid) descarga MAPA,
+# - Cada viernes y sábado a las 15:13 (hora de Madrid; no en hora «redonda» porque GitHub va más saturado y se retrasa) descarga MAPA,
 #   certificadoras, normativa ECO y excepcionales, y guarda los datos en el repositorio.
 # - Cada cambio de código en main vuelve a publicar la web.
 # - También se puede lanzar a mano desde la pestaña «Actions» → «Run workflow».
@@ -12,8 +12,8 @@ on:
   schedule:
     # GitHub solo admite horario UTC: una línea para el horario de invierno
     # y otra para el de verano; la comprobación de abajo deja pasar solo la buena.
-    - cron: '30 14 * * 5,6'   # 15:30 en Madrid con horario de invierno (UTC+1)
-    - cron: '30 13 * * 5,6'   # 15:30 en Madrid con horario de verano (UTC+2)
+    - cron: '13 14 * * 5,6'   # 15:13 en Madrid con horario de invierno (UTC+1)
+    - cron: '13 13 * * 5,6'   # 15:13 en Madrid con horario de verano (UTC+2)
   workflow_dispatch:
     inputs:
       actualizar:
@@ -42,6 +42,7 @@ jobs:
     timeout-minutes: 180
     outputs:
       fallo: ${{ steps.datos.outputs.fallo }}
+      ejecutar: ${{ steps.hora.outputs.ejecutar }}
     env:
       TZ: Europe/Madrid   # el MAPA da sus fechas en hora de Madrid
       # Raíz oficial FNMT G2R que usa www.mapa.gob.es y aún no viene de serie (ver certificados/LEEME.md)
@@ -57,8 +58,8 @@ jobs:
           ejecutar=true
           if [ "${{ github.event_name }}" = "schedule" ]; then
             offset=$(TZ=Europe/Madrid date +%z)
-            if [ "${{ github.event.schedule }}" = "30 14 * * 5,6" ] && [ "$offset" != "+0100" ]; then ejecutar=false; fi
-            if [ "${{ github.event.schedule }}" = "30 13 * * 5,6" ] && [ "$offset" != "+0200" ]; then ejecutar=false; fi
+            if [ "${{ github.event.schedule }}" = "13 14 * * 5,6" ] && [ "$offset" != "+0100" ]; then ejecutar=false; fi
+            if [ "${{ github.event.schedule }}" = "13 13 * * 5,6" ] && [ "$offset" != "+0200" ]; then ejecutar=false; fi
           fi
           if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.actualizar }}" = "false" ]; then ejecutar=false; fi
           echo "ejecutar=$ejecutar" >> "$GITHUB_OUTPUT"
@@ -104,11 +105,12 @@ jobs:
 
   publicar:
     needs: actualizar
-    if: always() && needs.actualizar.result != 'cancelled'
+    # La ejecución programada «de control» (la del otro horario) no descarga nada: entonces no se vuelve a publicar.
+    if: always() && needs.actualizar.result != 'cancelled' && (github.event_name != 'schedule' || needs.actualizar.outputs.ejecutar == 'true')
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.despliegue.outputs.page_url }}
+      url: ${{ steps.despliegue.outputs.page_url || steps.despliegue2.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -125,6 +127,14 @@ jobs:
         with:
           path: dist
       - id: despliegue
+        uses: actions/deploy-pages@v4
+        continue-on-error: true
+      # Si GitHub Pages se queda atascado («syncing files»), se espera un minuto y se reintenta una vez.
+      - name: Esperar antes de reintentar la publicación
+        if: steps.despliegue.outcome == 'failure'
+        run: sleep 60
+      - id: despliegue2
+        if: steps.despliegue.outcome == 'failure'
         uses: actions/deploy-pages@v4
       - name: Avisar si algún apartado no se actualizó
         if: needs.actualizar.outputs.fallo == 'si'

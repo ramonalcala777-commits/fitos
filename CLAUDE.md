@@ -19,8 +19,9 @@ para pistacho, almendro y frutos de cáscara, insumos ECO certificados y autoriz
 ## Cómo funciona
 - Web estática (React + Vite). Lee los datos de `public/data/*.json`. No hay servidor ni base de datos.
 - `.github/workflows/publicar.yml`:
-  - viernes y sábados a las 15:30 (Madrid) ejecuta `scripts/actualizar.mjs`, guarda los datos en el repo y publica;
-  - cada push a `main` vuelve a publicar;
+  - viernes y sábados a las 15:13 (Madrid; GitHub puede retrasarlo horas en momentos de carga) ejecuta `scripts/actualizar.mjs`, guarda los datos en el repo y publica;
+  - cada push a `main` vuelve a publicar; la ejecución programada del otro horario (invierno/verano) no descarga ni publica;
+  - si GitHub Pages se atasca al publicar, se reintenta una vez;
   - se puede lanzar a mano (Actions → «Actualizar y publicar» → Run workflow), con la opción «apartados» para actualizar solo algunos.
 - `scripts/actualizar.mjs` hace lo que antes hacían el actualizador externo y el servidor (`/api/import`,
   `/api/inputs`, `/api/ecology`, `/api/exceptions`), con las mismas validaciones. Apartados independientes:
